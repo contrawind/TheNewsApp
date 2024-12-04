@@ -19,9 +19,10 @@ abstract class ArticleDatabase : RoomDatabase() {
     abstract fun getArticleDao(): ArticleDAO
 
     companion object {
+        //静态，可以在任意位置访问
         @Volatile
         private var instance: ArticleDatabase? = null
-        private val LOCK = Any()
+        private val LOCK = Any()//同步数据库创建
 
         operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
             instance ?: createDatabase(context).also {
